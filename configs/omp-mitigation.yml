@@ -1,0 +1,11 @@
+# Astra/low remains the parent. The wait-monitor role is deliberately routed
+# through the subscription-backed openai-codex provider to Luna/low.
+modelRoles:
+  default: openai-codex/gpt-6-astra:low
+  wait_monitor: openai-codex/gpt-5.6-luna:low
+tools:
+  approvalMode: always-ask
+task:
+  enableEffort: false
+  agentModelOverrides:
+    wait-monitor: "@wait_monitor"

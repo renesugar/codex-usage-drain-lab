@@ -1,0 +1,7 @@
+# Uses the ChatGPT/Codex OAuth provider, not the API-key based `openai` provider.
+modelRoles:
+  default: openai-codex/gpt-6-astra:low
+tools:
+  approvalMode: always-ask
+task:
+  enableEffort: false

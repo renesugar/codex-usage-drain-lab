@@ -1,0 +1,13 @@
+# Mitigation: keep Astra/low as the parent, permit a long empty terminal wait,
+# and make a single low-effort Luna worker the default monitoring worker.
+model = "gpt-6-astra"
+model_reasoning_effort = "low"
+model_verbosity = "low"
+service_tier = "default"
+background_terminal_max_timeout = 3900000
+
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 1
+default_subagent_model = "gpt-5.6-luna"
+default_subagent_reasoning_effort = "low"

@@ -1,0 +1,5 @@
+# Baseline: measure current Codex behavior with only model/tier pinned.
+model = "gpt-6-astra"
+model_reasoning_effort = "low"
+model_verbosity = "low"
+service_tier = "default"
