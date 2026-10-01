@@ -33,6 +33,23 @@ class UsageParserTests(unittest.TestCase):
         self.assertEqual(result['five_hour_remaining_percent'], 75)
         self.assertEqual(result['weekly_remaining_percent'], 60)
 
+    def test_reserve_weekly_bucket_is_not_subscription_weekly(self):
+        for agent, reserve_id, main_id in (
+            ('codex', 'base_model_inference', 'codex'),
+            ('omp', 'openai-codex:base-model-inference:primary', 'openai-codex:secondary'),
+        ):
+            with self.subTest(agent=agent):
+                reserve = dict(limit_id=reserve_id, name='primary', duration_minutes=10080,
+                               remaining_percent=100, used_percent=0, reset_utc='reserve-reset')
+                main = dict(limit_id=main_id, name='secondary', duration_minutes=10080,
+                            remaining_percent=88, used_percent=12, reset_utc='subscription-reset')
+                for buckets in ([reserve, main], [main, reserve]):
+                    result = usage.summarize(agent, buckets, 'test', 'fixture')
+                    self.assertEqual(result['weekly_remaining_percent'], 88)
+                    self.assertEqual(result['weekly_reset_utc'], 'subscription-reset')
+                result = usage.summarize(agent, [reserve], 'test', 'fixture')
+                self.assertNotIn('weekly_remaining_percent', result)
+
     def test_omp_direct_wham_shape(self):
         payload = {'primary_window': {'used_percent': 10, 'limit_window_seconds': 18000, 'reset_at': 2000000000},
                    'secondary_window': {'used_percent': 20, 'limit_window_seconds': 604800, 'reset_at': 2000100000}}

@@ -20,6 +20,14 @@ def main():
     (run/'before.json').write_text(result.stdout or '{}\n')
     if result.returncode not in (0,2):
         raise SystemExit(f'usage probe failed: {result.stderr or result.stdout}')
+    before=json.loads(result.stdout or '{}')
+    required=('five_hour_remaining_percent','weekly_remaining_percent','five_hour_reset_utc','weekly_reset_utc')
+    if before.get('state') != 'active' or any(before.get(k) is None for k in required):
+        raise SystemExit('usage probe missing required subscription telemetry; do not launch target')
+    for key in ('five_hour_reset_utc','weekly_reset_utc'):
+        reset=datetime.fromisoformat(before[key].replace('Z','+00:00'))
+        if (reset-datetime.now(timezone.utc)).total_seconds() <= 3900:
+            raise SystemExit('subscription reset too close; do not launch target')
     version_cmd=[args.agent,'--version'] if args.agent=='omp' else ['codex','--version']
     try: version=subprocess.run(version_cmd,capture_output=True,text=True,timeout=5).stdout.strip().splitlines()[0]
     except Exception: version='unknown'

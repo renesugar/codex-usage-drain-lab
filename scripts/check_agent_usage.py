@@ -146,6 +146,12 @@ def make_bucket(
 def annotate_named_windows(result: dict[str, Any]) -> dict[str, Any]:
     """Set five-hour/weekly convenience fields from duration, then names."""
     buckets = result.get("buckets") or []
+    # Reserve-model quotas can have the same duration as the subscription
+    # quota. Never report them as the Codex/OMP experiment's named windows.
+    if result.get("agent") == "codex":
+        buckets = [b for b in buckets if b.get("limit_id") in (None, "codex")]
+    elif result.get("agent") == "omp":
+        buckets = [b for b in buckets if "base-model-inference" not in str(b.get("limit_id", ""))]
     five: dict[str, Any] | None = None
     week: dict[str, Any] | None = None
     for bucket in buckets:
