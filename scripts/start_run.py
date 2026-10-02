@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, subprocess, sys
+import argparse, json, os, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
@@ -34,6 +34,8 @@ def main():
     try: commit=subprocess.run(['git','rev-parse','HEAD'],cwd=ROOT,capture_output=True,text=True,timeout=5).stdout.strip()
     except Exception: commit='unknown'
     meta={'run_id':run_id,'agent':args.agent,'mode':args.mode,'model':args.model,'effort':args.effort,'agent_version':version,'harness_commit':commit,'started_utc':datetime.now(timezone.utc).isoformat().replace('+00:00','Z')}
+    if args.agent == 'codex':
+        meta['host_version'] = os.environ.get('CODEX_VERSION', 'unknown')
     (run/'metadata.json').write_text(json.dumps(meta,indent=2,sort_keys=True)+'\n')
     print(run_id)
 if __name__=='__main__': main()
