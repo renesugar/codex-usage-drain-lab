@@ -1,0 +1,6 @@
+# Additional baseline condition explicitly requested by the user.
+# Keep the same default wait behavior and service tier as the Astra baseline.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "max"
+model_verbosity = "low"
+service_tier = "default"

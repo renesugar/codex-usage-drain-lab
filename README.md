@@ -113,6 +113,20 @@ omp --from-codex <codex-session-id> --approval-mode always-ask --cwd "$PWD"
 
 Importing a session is optional. Keep the actual measured run separate: take a fresh **before** quota snapshot immediately before the target is launched.
 
+## Additional Sol/Max baseline
+
+An additional user-requested condition uses `gpt-6.1-sol` with `max` reasoning
+effort and default service tier. This overrides the standard Astra/low setting
+only for that explicitly selected experiment. Use
+[`prompts/codex-sol-max-baseline.md`](prompts/codex-sol-max-baseline.md) and
+`python3 scripts/select_profile.py codex sol-max-baseline`. Verify the active
+session's model; installing a profile alone does not establish a model switch.
+Pass `--model gpt-6.1-sol --effort max` to `start_run.py`.
+
+The [Sol/Max comparison](reports/20261002-sol-max-comparison.md) records the
+additional baseline alongside the Astra and OMP trials. It compares subscriber
+quota movement without API-price conversions.
+
 ## Mitigation runs
 
 Mitigation runs deliberately change the wait strategy while keeping the main model Astra/low.

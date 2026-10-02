@@ -7,8 +7,10 @@ ROOT=Path(__file__).resolve().parents[1]
 def main():
     p=argparse.ArgumentParser()
     p.add_argument('agent',choices=('codex','omp'))
-    p.add_argument('profile',choices=('baseline','mitigation'))
+    p.add_argument('profile',choices=('baseline','mitigation','sol-max-baseline'))
     args=p.parse_args()
+    if args.profile == 'sol-max-baseline' and args.agent != 'codex':
+        p.error('sol-max-baseline is a Codex-only experiment profile')
     if args.agent=='codex':
         src=ROOT/'configs'/f'codex-{args.profile}.toml'; dst=ROOT/'.codex'/'config.toml'
     else:
