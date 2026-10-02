@@ -181,6 +181,11 @@ It also includes calculated percentage-point drain and the pre-completion round 
 
 ## GitHub issue inventory
 
+The [waiting-inference analysis](reports/20261002-waiting-inference-analysis.md)
+collects the subscriber-quota results, source-backed mechanism, prompt-policy
+findings, mitigation distinctions, and recommendations for updating existing
+Codex issues. Its Codex source links point to the inspected GitHub revision.
+
 Status/assignment snapshot refreshed **2026-10-01**. “Usage-drain severity” is this harness's impact classification, not an OpenAI/GitHub severity label. “Cause confidence” distinguishes concrete code/telemetry evidence from reports that primarily establish a symptom. None of the open issues below had a GitHub assignee when refreshed.
 
 | Issue | Title | Status | Assigned | Usage-drain severity | Category | Cause confidence |
