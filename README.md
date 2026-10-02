@@ -11,6 +11,13 @@ The primary agents under test are:
 
 Both tests are explicitly subscription tests. They use the user's **ChatGPT/Codex subscription authentication**. Do **not** substitute OpenAI API-key billing and do **not** estimate cost from API prices. The measured quantities are the 5-hour and weekly subscription windows exposed by the installed clients.
 
+## Contributors
+
+[Rene Sugar (@renesugar)](https://github.com/renesugar) — project direction,
+experiment design, subscriber-quota investigation, and coordination and
+execution of the measured runs. Development and analysis used assistance from
+Codex and OMP.
+
 ## What is measured
 
 Each run records:
